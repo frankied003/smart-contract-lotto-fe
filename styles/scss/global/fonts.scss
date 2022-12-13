@@ -1,0 +1,94 @@
+$inputmono: input-mono, monospace;
+$body: "interface", sans-serif;
+
+:root {
+  --inputmono: "input-mono", monospace;
+  --body: "interface", sans-serif;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6,
+button,
+a {
+  font-family: var(--inputmono);
+}
+
+h1,
+.h1 {
+  font-weight: 700;
+  font-size: 5rem;
+  letter-spacing: 1px;
+
+  @media screen and (max-width: 500px) {
+    font-size: 4.5rem;
+  }
+}
+
+h2,
+.h2 {
+  font-weight: 800;
+  font-size: clamp(4rem, 5vw, 5rem);
+
+  @media screen and (max-width: 500px) {
+    font-size: 2.5rem;
+  }
+}
+
+h3,
+.h3 {
+  font-weight: 700;
+  font-size: 3rem;
+
+  @media screen and (max-width: 500px) {
+    font-size: 2.5rem;
+  }
+}
+
+h4,
+.h4 {
+  font-weight: 700;
+  font-size: 2rem;
+
+  @media screen and (max-width: 500px) {
+    font-size: 1.5rem;
+  }
+}
+
+p,
+input,
+textarea,
+li {
+  font-family: var(--inputmono);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+a,
+p,
+li {
+  color: var(--green);
+}
+
+a {
+  transition: 0.3s;
+}
+
+input {
+  border: none;
+  outline: none;
+}
