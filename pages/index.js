@@ -4,7 +4,12 @@ import Image from "next/image";
 
 // WAGMI
 import contractData from "../contractData.json";
-import { useContractReads } from "wagmi";
+import {
+  useContractReads,
+  usePrepareContractWrite,
+  useContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import { ethers } from "ethers";
 
 // Auth
@@ -27,6 +32,12 @@ export default function Home() {
   const [entryFee, setEntryFee] = useState(0.01);
   const [amountOfEntries, setAmountOfEntries] = useState(0);
   const [loadingContract, setLoadingContract] = useState(true);
+
+  const [enterButtonClickable, setEnterButtonClickable] = useState(false);
+  const [enteringLottery, setEnteringLottery] = useState(false);
+  const [enteredSuccess, setEnteredSuccess] = useState(false);
+  const [enteringError, setEnteringError] = useState(null);
+  const [txHash, setTxHash] = useState(null);
 
   const lotteryStatusMap = {
     0: "Closed",
@@ -57,8 +68,7 @@ export default function Home() {
       },
       {
         ...lotteryContract,
-        functionName: "winners",
-        args: -1,
+        functionName: "getLastWinner",
       },
     ],
     onSuccess(data) {
@@ -74,8 +84,58 @@ export default function Home() {
     },
   });
 
+  const { config } = usePrepareContractWrite({
+    address: contractData.address,
+    abi: contractData.abi,
+    chainId: 5,
+    functionName: "enter",
+    overrides: {
+      value: ethers.utils.parseEther(entryFee.toString()),
+    },
+  });
+
+  const enterRaffle = useContractWrite({
+    ...config,
+    onSuccess(data) {
+      setEnteringLottery(true);
+      setTxHash(data.hash);
+      setEnteringError(null);
+      console.log(data);
+    },
+    onError(error) {
+      setEnteringError(error.message);
+    },
+  });
+
+  const waitForTransaction = useWaitForTransaction({
+    hash: enterRaffle.data?.hash,
+    onSuccess(data) {
+      setEnteringLottery(false);
+      setEnteredSuccess(true);
+      setEnteringError(null);
+      console.log("Success", data);
+    },
+    onError(error) {
+      setEnteringLottery(false);
+      setEnteredSuccess(false);
+      setEnteringError(error.message);
+    },
+  });
+
   // animation useEffects
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (
+      session?.address &&
+      status != "Closed" &&
+      status != "Calculating Winner" &&
+      !enteringLottery &&
+      !enteredSuccess
+    ) {
+      setEnterButtonClickable(true);
+    } else {
+      setEnterButtonClickable(false);
+    }
+  }, [enteredSuccess, enteringLottery, session, status]);
 
   return (
     <div>
@@ -121,23 +181,36 @@ export default function Home() {
                   </p>
                   <button
                     className={
-                      session?.address
-                        ? status == "Closed" || status == "Calculating Winner"
-                          ? "enter-button disabled"
-                          : "enter-button"
+                      enterButtonClickable
+                        ? "enter-button"
                         : "enter-button disabled"
                     }
-                    disabled={session?.address ? false : true}
+                    disabled={enterButtonClickable ? false : true}
+                    onClick={() => enterRaffle.write?.()}
                   >
-                    Enter
+                    {enteringLottery
+                      ? "Entering..."
+                      : enteredSuccess
+                      ? "Entered"
+                      : "Enter"}
                   </button>
-                  <p className="subtext">
-                    {session?.address
-                      ? status == "Closed" || status == "Calculating Winner"
-                        ? "Lottery is currently not open, please wait for the next one."
-                        : null
-                      : "Please connect your wallet."}
-                  </p>
+
+                  {session?.address ? (
+                    status == "Closed" || status == "Calculating Winner" ? (
+                      <p className="subtext">
+                        Lottery is currently not open, please wait for the next
+                        one.
+                      </p>
+                    ) : null
+                  ) : (
+                    <p className="subtext">Please connect your wallet.</p>
+                  )}
+
+                  {enteringError ? (
+                    <p className="error">{enteringError.substring(0, 50)}...</p>
+                  ) : null}
+
+                  {/* <p>{txHash}</p> */}
                 </div>
                 <div className="bottom-flex-row">
                   <div className="lotto-info">

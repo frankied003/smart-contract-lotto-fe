@@ -30,7 +30,6 @@ import { publicProvider } from "wagmi/providers/public";
 // configure chains & providers with the Alchemy and Infura provider.
 const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
   infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY }),
-  alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY }),
   publicProvider(),
 ]);
 

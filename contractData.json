@@ -1,5 +1,5 @@
 {
-  "address": "0xaF679897C30837432D5FdaF77ff98A9a2B1D9747",
+  "address": "0x9886AEe50A7a5fe23881CeC704DbFf44478F9e74",
   "abi": [
     {
       "inputs": [
@@ -120,6 +120,19 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLastWinner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
