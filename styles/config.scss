@@ -126,4 +126,11 @@ li {
 button {
   border: none;
   outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.25s;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }

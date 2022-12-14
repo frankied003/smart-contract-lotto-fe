@@ -1,2 +1,125 @@
 .home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .header-flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 35px;
+    padding-left: 35px;
+    padding-right: 35px;
+
+    .logo-title-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+
+      .logo-container {
+        position: relative;
+        width: 83px;
+        height: 100px;
+      }
+    }
+
+    .connect-wallet-button {
+      font-size: 18px;
+      transition: 0.25s;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+  .content-container {
+    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .modal-container {
+      background-color: var(--light-black);
+      min-width: 300px;
+      min-height: 300px;
+      border-radius: 10px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+
+      .top-flex-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 100px;
+
+        .lottery-number {
+          font-size: 24px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+
+      .pot-enter-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+
+        .pot {
+          font-size: 20px;
+          .pot-amount {
+            font-size: 24px;
+            font-weight: 600;
+          }
+        }
+
+        .enter-button {
+          padding: 10px 20px;
+          background-color: var(--black);
+          cursor: pointer;
+          transition: 0.25s;
+
+          &:hover {
+            background-color: var(--green);
+            color: var(--black);
+          }
+        }
+      }
+
+      .bottom-flex-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 50px;
+
+        .last-winner {
+          a {
+            text-decoration: underline;
+            cursor: pointer;
+            transition: 0.25s;
+
+            &:hover {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        .lotto-info {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+      }
+    }
+  }
 }
