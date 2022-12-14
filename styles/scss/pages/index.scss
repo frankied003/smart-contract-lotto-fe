@@ -87,11 +87,29 @@
           background-color: var(--black);
           cursor: pointer;
           transition: 0.25s;
+          border-radius: 5px;
 
           &:hover {
             background-color: var(--green);
+            opacity: 1;
             color: var(--black);
           }
+
+          &.disabled {
+            opacity: 0.5;
+            user-select: none;
+            cursor: default;
+            &:hover {
+              background-color: var(--black);
+              color: var(--green);
+            }
+          }
+        }
+
+        .subtext {
+          max-width: 40ch;
+          text-align: center;
+          color: red;
         }
       }
 
